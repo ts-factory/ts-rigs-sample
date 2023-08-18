@@ -1,0 +1,21 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2023 OKTET Labs Ltd. All rights reserved.
+#
+# Mellanox MT27800 Family [ConnectX-5] on both host back-to-back
+
+# Enable net/mlx5 in the case of DPDK build/testing
+export RTE_MLX5_PMD=true
+
+TE_PCI_VENDOR_H1_H2_MLX=15b3
+TE_PCI_DEVICE_H1_H2_MLX=1017
+TE_PCI_INSTANCE_H1_H2_MLX=0
+TE_PCI_INSTANCE2_H1_H2_MLX=1
+TE_ENV_H1_NET_DRIVER_MLX=mlx5_core
+TE_ENV_H1_DPDK_DRIVER_MLX=mlx5_core
+
+TE_PCI_VENDOR_H2_H1_MLX=15b3
+TE_PCI_DEVICE_H2_H1_MLX=1017
+TE_PCI_INSTANCE_H2_H1_MLX=0
+TE_PCI_INSTANCE2_H2_H1_MLX=1
+TE_ENV_H2_NET_DRIVER_MLX=mlx5_core
+TE_ENV_H2_DPDK_DRIVER_MLX=mlx5_core

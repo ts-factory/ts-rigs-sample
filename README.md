@@ -57,3 +57,33 @@ host #2 (**sam**) to make two configurations:
     is used as *DUT* and NIC at **frodo** is used as *Tester*.
     Helper script ``scripts/iut.h2`` does corresponding translation from
     H1/H2 to IUT/TST1 terminology.
+
+
+## merry-pippin - two hosts back-to-back with three 2-ports NICs in each host
+
+The configuration is internally defined in terms of host #1 (**merry**) and
+host #2 (**pippin**) to make six configurations (two for each NIC pair):
+
+ 1. **merry-e810** (see ``run/merry-e810``, use ``--cfg=merry-e810``) -
+    two Intel E810 NICs back-to-back at **merry** as *DUT* and
+    **pippin** as *Tester*.
+
+ 2. **merry-mcx5** (see ``run/merry-mcx5``, use ``--cfg=merry-mcx5``) -
+    two Mellanox ConnectX-5 NICs back-to-back at **merry** as *DUT* and
+    **pippin** as *Tester*.
+
+ 3. **merry-x710** (see ``run/merry-x710``, use ``--cfg=merry-x710``) -
+    two Intel E810 NICs back-to-back at **merry** as *DUT* and
+    **pippin** as *Tester*.
+
+ 4. **pippin-e810** (see ``run/pippin-e810``, use ``--cfg=pippin-e810``) -
+    two Intel E810 NICs back-to-back at **pippin** as *DUT* and
+    **merry** as *Tester*.
+
+ 5. **pippin-mcx5** (see ``run/pippin-mcx5``, use ``--cfg=pippin-mcx5``) -
+    two Mellanox ConnectX-5 NICs back-to-back at **pippin** as *DUT* and
+    **merry** as *Tester*.
+
+ 6. **pippin-x710** (see ``run/pippin-x710``, use ``--cfg=pippin-x710``) -
+    two Intel E810 NICs back-to-back at **pippin** as *DUT* and
+    **merry** as *Tester*.

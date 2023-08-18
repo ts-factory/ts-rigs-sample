@@ -1,0 +1,4 @@
+--script=env/merry-pippin
+--script=env/intel-x710
+--script=scripts/iut.h2
+--script=scripts/iut.h2-x710
