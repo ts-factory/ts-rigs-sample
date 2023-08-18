@@ -1,0 +1,23 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (C) 2023 OKTET Labs Ltd. All rights reserved.
+//
+// Pipeline used to run night testing for net-drv-ts.
+
+@Library('teLib') _
+
+teScheduledRunPipeline {
+    label = 'main'
+
+    schedule = '''
+H 03 * * * % ts_cfg=frodo;job=run
+'''
+
+    specificParameters = [
+        string(name: 'ts_cfg', defaultValue: '',
+               description: 'Tested configuration'),
+        string(name: 'ts_opts', defaultValue: '',
+               description: 'Additional options for run.sh'),
+        string(name: 'get_revs_from', defaultValue: 'update',
+               description: 'From which jobs to get revisions to build'),
+    ]
+}

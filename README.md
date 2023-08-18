@@ -130,3 +130,14 @@ The configuration uses SSH key to login to started VMs under root.
 Other bits of the configuration are not site-specific and located in
 ``ts-conf``. See ``ts-conf/opts/virtio_virtio`` and
 ``ts-conf/scripts/virtio_virtio``.
+
+
+# Jenkins
+
+``jenkins`` directory contains examples of site-specific Jenkins files.
+These files are used by ``te-jenkins``
+(https://github.com/ts-factory/te-jenkins) to get generic settings on
+where to get Test Environment and **ts-conf** and per test suite settings.
+See ``te-jenkins/README.md`` and test suite ``jenkins/README.md`` for details.
+
+Also examples of nightly schedule pipelines are provided.
