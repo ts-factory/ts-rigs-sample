@@ -1,0 +1,45 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2023 OKTET Labs Ltd. All rights reserved.
+#
+# This is the full description of the two hosts configuration frodo/sam
+# in terms of H1 - frodo, and H2 - sam.
+# Intended for subsequent use by env/iut.* scripts which allow to use H1
+# as IUT and H2 as Tester and vise versa to avoid duplication.
+
+# DNS name or IP address of the first DUT host
+TE_H1=frodo
+# Do not allow TE to reboot the host to recover in the case of failure
+TE_H1_REBOOTABLE=no
+# Number of memory channels to pass to DPDK EAL
+TE_H1_MEM_CHANNELS=4
+# Size of memory to be passed to DPDK EAL (in megabytes)
+TE_H1_DPDK_MEM_MB=1024
+
+# Network PCI device at the first host connected to the second one
+TE_PCI_VENDOR_H1_H2=1924
+TE_PCI_DEVICE_H1_H2=0a03
+TE_PCI_INSTANCE_H1_H2=0
+TE_PCI_INSTANCE2_H1_H2=1
+TE_ENV_H1_NET_DRIVER=sfc
+
+# Network PCI device at the second host connected to the first one
+TE_PCI_VENDOR_H2_H1=1924
+TE_PCI_DEVICE_H2_H1=0903
+TE_PCI_INSTANCE_H2_H1=0
+TE_PCI_INSTANCE2_H2_H1=1
+TE_ENV_H2_NET_DRIVER=sfc
+
+# DNS name or IP address of the second DUT host
+TE_H2=sam
+TE_H2_REBOOTABLE=no
+TE_H2_MEM_CHANNELS=4
+TE_H2_DPDK_MEM_MB=1024
+# IOMMU is off on sam and Debian kernel does not support VFIO no IOMMU mode
+TE_ENV_H2_DPDK_DRIVER=uio_pci_generic
+
+# No auxiliary Tester (not used by dpdk-ethdev-ts and net-drv-ts)
+TE_H3=
+#TE_H1_H3_LINK=
+#TE_H3_H1_LINK=
+#TE_H2_H3_LINK=
+#TE_H3_H2_LINK=

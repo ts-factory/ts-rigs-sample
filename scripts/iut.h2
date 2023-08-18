@@ -1,0 +1,63 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2023 OKTET Labs Ltd. All rights reserved.
+#
+# Helper script to transform configuration defined in terms of H1, H2 and H3
+# into IUT, TST1 and TST2 where H2 is IUT.
+
+# Use host #2 as DUT/IUT
+export TE_IUT="${TE_H2}"
+export TE_IUT_REBOOTABLE="${TE_H2_REBOOTABLE}"
+test -n "${TE_H2_MEM_CHANNELS}" \
+    && export TE_IUT_MEM_CHANNELS="${TE_H2_MEM_CHANNELS}"
+test -n "${TE_H2_DPDK_MEM_MB}" \
+    && export TE_IUT_DPDK_MEM_MB="${TE_H2_DPDK_MEM_MB}"
+test -z "${TE_ENV_IUT_DPDK_DRIVER}" -a -n "${TE_ENV_H2_DPDK_DRIVER}" \
+    && export TE_ENV_IUT_DPDK_DRIVER="${TE_ENV_H2_DPDK_DRIVER}"
+test -z "${TE_ENV_IUT_NET_DRIVER}" -a -n "${TE_ENV_H2_NET_DRIVER}" \
+    && export TE_ENV_IUT_NET_DRIVER="${TE_ENV_H2_NET_DRIVER}"
+
+# Network PCI device at the host #2 connected to the host #1
+test -n "${TE_PCI_VENDOR_H2_H1}" \
+    && export TE_PCI_VENDOR_IUT_TST1="${TE_PCI_VENDOR_H2_H1}"
+test -n "${TE_PCI_DEVICE_H2_H1}" \
+    && export TE_PCI_DEVICE_IUT_TST1="${TE_PCI_DEVICE_H2_H1}"
+# Instance number of the first link (typically 0)
+test -n "${TE_PCI_INSTANCE_H2_H1}" \
+    && export TE_PCI_INSTANCE_IUT_TST1="${TE_PCI_INSTANCE_H2_H1}"
+# Instance number of the second link (typically 1 or unset)
+test -n "${TE_PCI_INSTANCE2_H2_H1}" \
+    && export TE_PCI_INSTANCE_IUT_TST1a="${TE_PCI_INSTANCE2_H2_H1}"
+
+# Network PCI device at the host #1 connected to the host #2
+test -n "${TE_PCI_VENDOR_H1_H2}" \
+    && export TE_PCI_VENDOR_TST1_IUT="${TE_PCI_VENDOR_H1_H2}"
+test -n "${TE_PCI_DEVICE_H1_H2}" \
+    && export TE_PCI_DEVICE_TST1_IUT="${TE_PCI_DEVICE_H1_H2}"
+# Instance number of the first link (typically 0)
+test -n "${TE_PCI_INSTANCE_H1_H2}" \
+    && export TE_PCI_INSTANCE_TST1_IUT="${TE_PCI_INSTANCE_H1_H2}"
+# Instance number of the second link (typically 1 or unset)
+test -n "${TE_PCI_INSTANCE2_H1_H2}" \
+    && export TE_PCI_INSTANCE_TST1a_IUT="${TE_PCI_INSTANCE2_H1_H2}"
+
+# Use host #1 as main Tester
+export TE_TST1="${TE_H1}"
+export TE_TST1_REBOOTABLE="${TE_H1_REBOOTABLE}"
+test -n "${TE_H1_MEM_CHANNELS}" \
+    && export TE_TST1_MEM_CHANNELS="${TE_H1_MEM_CHANNELS}"
+test -n "${TE_H1_DPDK_MEM_MB}" \
+    && export TE_TST1_DPDK_MEM_MB="${TE_H1_DPDK_MEM_MB}"
+test -z "${TE_ENV_TST_DPDK_DRIVER}" -a -n "${TE_ENV_H1_DPDK_DRIVER}" \
+    && export TE_ENV_TST_DPDK_DRIVER="${TE_ENV_H1_DPDK_DRIVER}"
+test -z "${TE_ENV_TST1_NET_DRIVER}" -a -n "${TE_ENV_H1_NET_DRIVER}" \
+    && export TE_ENV_TST1_NET_DRIVER="${TE_ENV_H1_NET_DRIVER}"
+
+# Use host #3 (if defined) as auxiliary Tester
+if test -n "${TE_H3}" ; then
+    export TE_TST2="${TE_H3}"
+    export TE_TST2_REBOOTABLE="${TE_H3_REBOOTABLE}"
+    export TE_IUT_TST2_TST="${TE_H2_H3_LINK}"
+    export TE_TST2_IUT_TST="${TE_H3_H2_LINK}"
+    export TE_TST1_TST2="${TE_H1_H3_LINK}"
+    export TE_TST2_TST1="${TE_H3_H1_LINK}"
+fi
