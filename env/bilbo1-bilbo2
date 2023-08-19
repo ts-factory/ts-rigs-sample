@@ -1,0 +1,34 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2023 OKTET Labs Ltd. All rights reserved.
+#
+# This is the full description of the two static VMs configuration
+# bilbo1/bilbo2 in terms of H1 - bilbo1, and H2 - bilbo2.
+# Intended for subsequent use by env/iut.* scripts which allow to use H1
+# as IUT and H2 as Tester and vise versa to avoid duplication.
+
+# DNS name or IP address of the first DUT host
+TE_H1=bilbo1
+# Do not allow TE to reboot the host to recover in the case of failure
+TE_H1_REBOOTABLE=no
+# Number of memory channels to pass to DPDK EAL
+TE_H1_MEM_CHANNELS=1
+# Size of memory to be passed to DPDK EAL (in megabytes)
+TE_H1_DPDK_MEM_MB=1024
+
+# DNS name or IP address of the second DUT host
+TE_H2=bilbo2
+TE_H2_REBOOTABLE=no
+TE_H2_MEM_CHANNELS=1
+TE_H2_DPDK_MEM_MB=1024
+
+# No auxiliary Tester (not used by dpdk-ethdev-ts and net-drv-ts)
+TE_H3=
+#TE_H1_H3_LINK=
+#TE_H3_H1_LINK=
+#TE_H2_H3_LINK=
+#TE_H3_H2_LINK=
+
+# Use host bilbo to listen to netconsole logs from IUT and main Tester
+export TE_LOG_LISTENER=bilbo
+export TE_LOG_LISTENER_NETCONSOLE_IUT=yes
+export TE_LOG_LISTENER_NETCONSOLE_TST1=yes

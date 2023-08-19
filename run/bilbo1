@@ -1,0 +1,4 @@
+--script=env/bilbo1-bilbo2
+--script=env/virtio-legacy
+--script=scripts/iut.h1
+--script=scripts/iut.h1-virt

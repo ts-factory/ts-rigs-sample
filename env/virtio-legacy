@@ -1,0 +1,22 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2023 OKTET Labs Ltd. All rights reserved.
+#
+# Virtio legacy network device on both hosts with just one link
+
+TE_PCI_VENDOR_H1_H2_VIRT=1af4
+TE_PCI_DEVICE_H1_H2_VIRT=1000
+TE_PCI_INSTANCE_H1_H2_VIRT=0
+# one interface between H1 and H2
+#TE_PCI_INSTANCE2_H1_H2_VIRT=
+# Do not set net driver since reloading virtio-pci is very harmful
+#TE_ENV_H1_NET_DRIVER_VIRT=virtio-pci
+TE_ENV_H1_DPDK_DRIVER_VIRT=uio_pci_generic
+
+TE_PCI_VENDOR_H2_H1_VIRT=1af4
+TE_PCI_DEVICE_H2_H1_VIRT=1000
+TE_PCI_INSTANCE_H2_H1_VIRT=0
+# one interface between H2 and H1
+#TE_PCI_INSTANCE2_H2_H1_VIRT=
+# Do not set net driver since reloading virtio-pci is very harmful
+#TE_ENV_H2_NET_DRIVER_VIRT=virtio-pci
+TE_ENV_H2_DPDK_DRIVER_VIRT=uio_pci_generic

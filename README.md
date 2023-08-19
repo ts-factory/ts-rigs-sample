@@ -87,3 +87,22 @@ host #2 (**pippin**) to make six configurations (two for each NIC pair):
  6. **pippin-x710** (see ``run/pippin-x710``, use ``--cfg=pippin-x710``) -
     two Intel E810 NICs back-to-back at **pippin** as *DUT* and
     **merry** as *Tester*.
+
+
+## bilbo1-bilbo2 - two virtual machines back-to-back
+
+The configuration is internally defined in terms of host #1 (**bilbo1**) and
+host #2 (**bilbo2**) to make two configurations:
+
+ 1. **bilbo1** (see ``run/bilbo1``, use ``--cfg=bilbo1``) where NIC at
+    **bilbo1** is used as *DUT* and NIC at **bilbo2** is used as *Tester*.
+
+ 2. **bilbo2** (see ``run/bilbo2``, use ``--cfg=bilbo2``) where NIC at
+    **bilbo2** is used as *DUT* and NIC at **bilbo1** is used as *Tester*.
+
+These configurations use auxiliary host **bilbo** to listen to netconsole
+kernel logs from **bilbo1** and **bilbo2**. Test agent on **bilbo** runs
+under login user and does not require password-less sudo.
+
+Note that different PCI device (not virtio-net) should be used for
+management network used for control traffic.
