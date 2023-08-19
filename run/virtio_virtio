@@ -1,0 +1,3 @@
+--script=env/ta-build
+--script=env/virtio_virtio
+--opts=opts/virtio_virtio

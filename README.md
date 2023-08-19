@@ -106,3 +106,27 @@ under login user and does not require password-less sudo.
 
 Note that different PCI device (not virtio-net) should be used for
 management network used for control traffic.
+
+
+## virtio_virtio - dynamically started virtual machines
+
+The configuration requires only one hypervisor host to run on.
+The hypervisor is specified in ``--cfg=`` option value, for example
+``--cfg=virtio_virtio:shire``. In this case TE starts and connects
+virtual machines dynamically using VM disk image in snapshot mode
+(i.e. all changes are lost when VM is stopped). QEMU is used to
+run VMs. Host forwarding is used for control traffic. Test interfaces
+are virtio-net with vhost backend. Corresponding tap interfaces are
+connected via bridge.
+
+Except hypervisor extra host is required to build Test Agent for
+virtual machine. See ``env/ta-build`` for definition of build hosts
+for different Test Agent types and ``env/virtio_virtio`` for used
+TA type and definition of the directory with VM disk images for
+different TA types.
+
+The configuration uses SSH key to login to started VMs under root.
+
+Other bits of the configuration are not site-specific and located in
+``ts-conf``. See ``ts-conf/opts/virtio_virtio`` and
+``ts-conf/scripts/virtio_virtio``.

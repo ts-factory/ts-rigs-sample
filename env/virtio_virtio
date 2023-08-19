@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2023 OKTET Labs Ltd. All rights reserved.
+#
+# Site-specific tunning of the virtio_virtio configuration
+
+: ${TE_VM_NAME:=x86_64_debian11}
+
+TE_VM_BUILD_HOST_VAR=TE_TA_${TE_VM_NAME}_BUILD_HOST
+: ${TE_VM_BUILD_HOST:=${!TE_VM_BUILD_HOST_VAR}}
+
+: ${TE_VM_DRIVE_DIR:=/srv/virtual}
+: ${TE_VM_SSH_KEY:=${TE_TS_RIGSDIR}/keys/testvm.id_rsa}

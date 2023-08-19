@@ -1,0 +1,31 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2023 OKTET Labs Ltd. All rights reserved.
+#
+# Configuration of build hosts for dynamically started virtual machines
+
+export TE_TA_x86_64_centos7_BUILD_HOST=build-x86-64-centos7
+export TE_TA_x86_64_centos7_KERNEL_RELEASE=3.10.0-1160.92.1.el7.x86_64
+
+export TE_TA_x86_64_centos8_BUILD_HOST=build-x86-64-centos8
+export TE_TA_x86_64_centos8_KERNEL_RELEASE=4.18.0-348.7.1.el8_5.x86_64
+
+export TE_TA_x86_64_debian9_BUILD_HOST=build-x86-64-debian9
+export TE_TA_x86_64_debian9_KERNEL_RELEASE=4.19.0-0.bpo.9-amd64
+
+export TE_TA_x86_64_debian10_BUILD_HOST=build-x86-64-debian10
+export TE_TA_x86_64_debian10_KERNEL_RELEASE=4.19.0-24-amd64
+
+export TE_TA_x86_64_debian11_BUILD_HOST=build-x86-64-debian11
+export TE_TA_x86_64_debian11_KERNEL_RELEASE=5.10.0-23-amd64
+
+export TE_TA_x86_64_fedora38_BUILD_HOST=build-x86-64-fedora38
+export TE_TA_x86_64_fedora38_KERNEL_RELEASE=6.3.8-200.fc38.x86_64
+
+export TE_TA_x86_64_ubuntu18_04_BUILD_HOST=build-x86-64-ubuntu18-04
+export TE_TA_x86_64_ubuntu18_04_KERNEL_RELEASE=4.15.0-213-generic
+
+export TE_TA_x86_64_ubuntu20_04_BUILD_HOST=build-x86-64-ubuntu20-04
+export TE_TA_x86_64_ubuntu20_04_KERNEL_RELEASE=5.4.0-153-generic
+
+export TE_TA_x86_64_ubuntu22_04_BUILD_HOST=build-x86-64-ubuntu22-04
+export TE_TA_x86_64_ubuntu22_04_KERNEL_RELEASE=5.15.0-76-generic
