@@ -1,0 +1,6 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2023 OKTET Labs Ltd. All rights reserved.
+#
+# Site-specific defines for net-drv-ts test suite.
+
+export TE_BUBLIK_PROJECT="ts-factory"
