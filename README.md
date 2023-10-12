@@ -141,3 +141,18 @@ where to get Test Environment and **ts-conf** and per test suite settings.
 See ``te-jenkins/README.md`` and test suite ``jenkins/README.md`` for details.
 
 Also examples of nightly schedule pipelines are provided.
+
+
+# Logs publishing
+
+``scripts/publish_logs`` directory contains helper files to setup testing
+logs publishing.
+
+``ts_publish``  is sourced by TS scripts to get path to logs publishing
+script. The path depends from Bublik project name which is specified per
+test suite.
+
+``prj/ts-tactory/publish`` is an example of testing logs publishing
+script for ts-factory.io. In this particular case the publishing is done
+asynchronously. It just copies TAR with log files to server and periodic
+job on server should pick it up and publish these logs.

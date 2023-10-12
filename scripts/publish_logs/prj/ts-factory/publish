@@ -1,0 +1,56 @@
+#!/bin/bash
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2023 OKTET Labs Ltd. All rights reserved.
+#
+# This script can be passed with --publish option to
+# dispatcher.sh to publish testing logs to Bublik web
+# application.
+#
+# The script assumes that passwordless sftp is setup for
+# ts-factory.io (e.g. in ~/.ssh/config file).
+#
+# Usage:
+# ./publish <path/to/logs/tar/archive>
+
+set -e
+
+#####################################################################
+# Perform cleanup on exit from script.
+# Globals:
+#   ssh_cmd
+#   tmp_tar
+#####################################################################
+cleanup() {
+    if [[ -n "${tmp_tar}" ]] ; then
+        ${ssh_cmd} rm "${tmp_tar}"
+        tmp_tar=
+    fi
+}
+
+#####################################################################
+# Main function of this script.
+# Arguments:
+#   Path to logs archive.
+# Globals:
+#   tmp_tar
+#   ssh_cmd
+#####################################################################
+main() {
+    local logs_tar="$1"
+    local remote_tar
+
+    if [[ -z "${logs_tar}" -o ! -r "${logs_tar}" ]] ; then
+        echo "Archive with logs must be provided" >&2
+        exit 1
+    fi
+
+    # It is assumed that user plus date+time is unique enough
+    remote_tar="${USER}_$(date +%F-%T).tar"
+
+    # Just put the tar file to incoming directory
+    # CRON job will find and publish it
+    echo "put ${logs_tar} incoming/${remote_tar}" \
+        | sftp -q ts-factory.io >/dev/null
+}
+
+main "$@"
