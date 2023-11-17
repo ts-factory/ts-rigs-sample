@@ -39,7 +39,7 @@ main() {
     local logs_tar="$1"
     local remote_tar
 
-    if [[ -z "${logs_tar}" -o ! -r "${logs_tar}" ]] ; then
+    if [[ -z ${logs_tar} || ! -r "${logs_tar}" ]] ; then
         echo "Archive with logs must be provided" >&2
         exit 1
     fi
