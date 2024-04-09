@@ -1,56 +1,75 @@
 #!/bin/bash
 # SPDX-License-Identifier: Apache-2.0
-# Copyright (C) 2023 OKTET Labs Ltd. All rights reserved.
+# Copyright (C) 2023-2024 OKTET Labs Ltd. All rights reserved.
 #
 # This script can be passed with --publish option to
 # dispatcher.sh to publish testing logs to Bublik web
 # application.
 #
-# The script assumes that passwordless sftp is setup for
-# ts-factory.io (e.g. in ~/.ssh/config file).
+# It is an example of asynchronous publishing when user has
+# passwordless SFTP access to log storage. The method is asynchronous
+# since it assumes that periodic job is running on log server to
+# find copied logs and publish it (see Test Environment
+# tools/log_server/publish-logs-unpack.sh).
+#
+# Edit site-specific variables below to customize the script and put it
+# to ${TSRIGS_DIR}/scripts/publish_logs/prj/${TE_BUBLIK_PROJECT}/publish
 #
 # Usage:
-# ./publish <path/to/logs/tar/archive>
+# ./publish <path/to/logs/file>
 
 set -e
 
-#####################################################################
-# Perform cleanup on exit from script.
-# Globals:
-#   ssh_cmd
-#   tmp_tar
-#####################################################################
-cleanup() {
-    if [[ -n "${tmp_tar}" ]] ; then
-        ${ssh_cmd} rm "${tmp_tar}"
-        tmp_tar=
-    fi
-}
+#
+# Site-specific settings
+#
+
+# Mandatory
+LOG_SERVER="ts-factory.io"
+
+# Optional
+LOG_SERVER_INCOMING="incoming"
+SSH_USER=""
+SFTP_OPTS=("-q" "-o" "BatchMode=yes")
 
 #####################################################################
 # Main function of this script.
 # Arguments:
 #   Path to logs archive.
 # Globals:
-#   tmp_tar
-#   ssh_cmd
+#   LOG_SERVER
+#   LOG_SERVER_INCOMING
+#   SSH_USER
+#   SFTP_OPTS
 #####################################################################
 main() {
-    local logs_tar="$1"
-    local remote_tar
+    local logs_file="$1"
+    local logs_copy
 
-    if [[ -z ${logs_tar} || ! -r "${logs_tar}" ]] ; then
+    if [[ -z "${logs_file}" ]] ; then
         echo "Archive with logs must be provided" >&2
         exit 1
     fi
 
-    # It is assumed that user plus date+time is unique enough
-    remote_tar="${USER}_$(date +%F-%T).tar"
+    if [[ ! -r "${logs_file}" ]] ; then
+        echo "Logs file is not readable: ${logs_file}" >&2
+        exit 1
+    fi
 
-    # Just put the tar file to incoming directory
+    if [[ -z "${LOG_SERVER}" ]] ; then
+        echo "LOG_SERVER is unspecified" >&2
+        exit 1
+    fi
+
+    # It is assumed that user plus date+time is unique enough
+    logs_copy="${USER}_$(date +%F-%T)"
+
+    inc_dir="${LOG_SERVER_INCOMING}${LOG_SERVER_INCOMING:+/}"
+
+    # Just put the file to incoming directory
     # CRON job will find and publish it
-    echo "put ${logs_tar} incoming/${remote_tar}" \
-        | sftp -q ts-factory.io >/dev/null
+    echo "put ${logs_file} ${inc_dir}${logs_copy}" \
+        | sftp "${SFTP_OPTS[@]}" "${SSH_USER}${SSH_USER:+@}${LOG_SERVER}" >/dev/null
 }
 
 main "$@"
