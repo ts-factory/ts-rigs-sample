@@ -1,0 +1,111 @@
+#!/bin/bash
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (C) 2023-2024 OKTET Labs Ltd. All rights reserved.
+#
+# This script can be passed with --publish option to
+# dispatcher.sh to publish testing logs to Bublik web
+# application.
+#
+# It is an example of synchronous publishing when user has
+# passwordless SSH access to log storage and remove user has rights
+# to do publishing and import logs to Bublik instance (if applicable).
+#
+# Edit site-specific variables below to customize the script and put it
+# to ${TSRIGS_DIR}/scripts/publish_logs/prj/${TE_BUBLIK_PROJECT}/publish
+#
+# Usage:
+# ./publish <path/to/logs/file>
+
+set -e
+
+#
+# Site-specific settings
+#
+
+# Mandatory
+LOG_SERVER=""
+PUBLISH=
+
+# Optional
+LOG_SERVER_INCOMING=""
+SSH_USER=""
+SUDO_USER=""
+SSH_OPTS=("-qT" "-o" "BatchMode=yes")
+
+#####################################################################
+# Perform cleanup on exit from script.
+# Globals:
+#   do_ssh
+#   logs_copy
+#####################################################################
+cleanup() {
+    if [[ -n "${logs_copy}" ]] ; then
+        "${do_ssh[@]}" rm "${logs_copy}"
+        logs_copy=
+    fi
+}
+
+#####################################################################
+# Main function of this script.
+# Arguments:
+#   Path to logs archive.
+# Globals:
+#   logs_copy
+#   do_ssh
+#   LOG_SERVER
+#   LOG_SERVER_INCOMING
+#   PUBLISH
+#   SSH_OPTS
+#   SSH_USER
+#   SUDO_USER
+#####################################################################
+main() {
+    local logs_file="$1"
+    local inc_dir
+
+    if [[ -z "${logs_file}" ]] ; then
+        echo "Archive with logs must be provided" >&2
+        exit 1
+    fi
+
+    if [[ ! -r "${logs_file}" ]] ; then
+        echo "Logs file is not readable: ${logs_file}" >&2
+        exit 1
+    fi
+
+    if [[ -z "${LOG_SERVER}" ]] ; then
+        echo "LOG_SERVER is unspecified" >&2
+        exit 1
+    fi
+
+    if [[ -z "${PUBLISH}" ]] ; then
+        echo "Remove script to publish logs is unspecified" >&2
+        exit 1
+    fi
+
+    ssh_with_opts=(ssh "${SSH_OPTS[@]}")
+    [[ -z "${SSH_USER}" ]] || ssh_with_opts+=(-u "${SSH_USER}")
+    do_ssh=("${ssh_with_opts[@]}" "${LOG_SERVER}")
+
+    # Using mktemp guarantees that destination file is unique and
+    # will not be used by somebody else at the same time.
+    inc_dir="${LOG_SERVER_INCOMING}${LOG_SERVER_INCOMING:+/}"
+    logs_copy="$("${do_ssh[@]}" mktemp "${inc_dir}logs_${USER}_XXXXX")"
+    trap cleanup ERR EXIT
+
+    rsync -q -e "${ssh_with_opts[*]}" "${logs_file}" \
+        "${LOG_SERVER}":"${logs_copy}"
+
+    publish_cmd=()
+
+    # By default mktemp does not make the file readable for a group,
+    # and sudo user will not be able to read it unless chmod is used.
+    if [[ -n "${SUDO_USER}" ]] ; then
+        publish_cmd=(chmod g+rw "${logs_copy}" "&&" sudo -u "${SUDO_USER}")
+    fi
+    publish_cmd+=("${PUBLISH}" "${logs_copy}")
+
+    "${do_ssh[@]}" "${publish_cmd[@]}"
+}
+
+main "$@"
