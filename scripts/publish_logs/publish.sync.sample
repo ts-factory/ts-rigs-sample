@@ -84,7 +84,7 @@ main() {
     fi
 
     ssh_with_opts=(ssh "${SSH_OPTS[@]}")
-    [[ -z "${SSH_USER}" ]] || ssh_with_opts+=(-u "${SSH_USER}")
+    [[ -z "${SSH_USER}" ]] || ssh_with_opts+=(-l "${SSH_USER}")
     do_ssh=("${ssh_with_opts[@]}" "${LOG_SERVER}")
 
     # Using mktemp guarantees that destination file is unique and
