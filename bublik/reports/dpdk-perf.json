@@ -1,0 +1,75 @@
+{
+    "id": 1,
+    "name": "dpdk-perf",
+    "description": "Performance report for dpdk-ethdev-ts",
+    "version": "v1",
+    "title_content": [
+        "CAMPAIGN_DATE",
+        "CFG"
+    ],
+    "test_names_order": [
+        "testpmd_txonly",
+        "testpmd_rxonly"
+    ],
+    "tests": {
+        "testpmd_txonly": {
+            "table_view": true,
+            "chart_view": true,
+            "axis_x": "testpmd_command_txpkts",
+            "axis_y": {
+                "throughput": {
+                    "keys": {
+                        "Side": [
+                            "Tx"
+                        ]
+                    }
+                },
+                "pps": {
+                    "keys": {
+                        "Side": [
+                            "Tx"
+                        ]
+                    },
+                    "aggr": [
+                        "mean"
+                    ]
+                }
+            },
+            "sequence_group_arg": "testpmd_arg_txq",
+            "percentage_base_value": 1,
+            "sequence_name_conversion": {},
+            "not_show_args": {},
+            "records_order": []
+        },
+        "testpmd_rxonly": {
+            "table_view": true,
+            "chart_view": true,
+            "axis_x": "packet_size",
+            "axis_y": {
+                "throughput": {
+                    "keys": {
+                        "Side": [
+                            "Rx"
+                        ]
+                    }
+                },
+                "pps": {
+                    "keys": {
+                        "Side": [
+                            "Rx"
+                        ]
+                    },
+                    "aggr": [
+                        "mean"
+                    ]
+                }
+            },
+            "sequence_group_arg": "testpmd_arg_rxq",
+            "percentage_base_value": 1,
+            "sequence_name_conversion": {},
+            "not_show_args": {},
+            "records_order": []
+        }
+    }
+}
+
