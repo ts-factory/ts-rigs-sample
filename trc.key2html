@@ -1,0 +1,4 @@
+# Mapping of TRC key domains used in ref://<domain/<key> to links.
+
+#KEY_DOMAINS
+dpdk-bz         https://bugs.dpdk.org/show_bug.cgi?id=
