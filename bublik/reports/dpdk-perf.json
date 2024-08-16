@@ -1,7 +1,7 @@
 {
-    "id": 1,
+    "id": 3,
     "name": "dpdk-perf",
-    "description": "Performance report for dpdk-ethdev-ts",
+    "description": "Performance report config for dpdk-ethdev-ts",
     "version": "v1",
     "title_content": [
         "CAMPAIGN_DATE",
@@ -16,15 +16,21 @@
             "table_view": true,
             "chart_view": true,
             "axis_x": "testpmd_command_txpkts",
-            "axis_y": {
-                "throughput": {
+            "axis_y": [
+                {
+                    "type": [
+                        "throughput"
+                    ],
                     "keys": {
                         "Side": [
                             "Tx"
                         ]
                     }
                 },
-                "pps": {
+                {
+                    "type": [
+                        "pps"
+                    ],
                     "keys": {
                         "Side": [
                             "Tx"
@@ -34,7 +40,7 @@
                         "mean"
                     ]
                 }
-            },
+            ],
             "sequence_group_arg": "testpmd_arg_txq",
             "percentage_base_value": 1,
             "sequence_name_conversion": {},
@@ -45,15 +51,21 @@
             "table_view": true,
             "chart_view": true,
             "axis_x": "packet_size",
-            "axis_y": {
-                "throughput": {
+            "axis_y": [
+                {
+                    "type": [
+                        "throughput"
+                    ],
                     "keys": {
                         "Side": [
                             "Rx"
                         ]
                     }
                 },
-                "pps": {
+                {
+                    "type": [
+                        "pps"
+                    ],
                     "keys": {
                         "Side": [
                             "Rx"
@@ -63,7 +75,7 @@
                         "mean"
                     ]
                 }
-            },
+            ],
             "sequence_group_arg": "testpmd_arg_rxq",
             "percentage_base_value": 1,
             "sequence_name_conversion": {},
